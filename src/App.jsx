@@ -1,4 +1,5 @@
-import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+import { BrowserRouter as Routes, Route } from "react-router-dom";
+import { HashRouter as Router } from "react-router-dom";
 import Header from "./pages/Header/Header";
 import Home from "./pages/Home/Home";
 import { useNavigate } from "react-router-dom";
@@ -12,7 +13,6 @@ import NotFound from "./pages/NotFound/NotFound";
 import AdminPanel from "./pages/AdminPanel/AdminPanel";
 
 function App() {
-
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -22,7 +22,6 @@ function App() {
       navigate(`/${redirect}`);
     }
   }, [navigate]);
-
 
   return (
     <>
