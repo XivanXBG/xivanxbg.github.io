@@ -10,12 +10,13 @@
     "predeploy": "npm run build",
     "deploy": "gh-pages -d dist"
   },
+  
   "dependencies": {
     "react": "^19.0.0",
     "react-dom": "^19.0.0",
     "react-router-dom": "^6.30.0"
   },
-  "homepage": "https://XivanXBG.github.io/diankov-eood/",
+  "homepage": "https://dyankov.eu",
   "devDependencies": {
     "@eslint/js": "^9.21.0",
     "@types/react": "^19.0.10",
