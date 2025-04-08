@@ -1,5 +1,4 @@
-import { BrowserRouter as Routes, Route } from "react-router-dom";
-import { HashRouter as Router } from "react-router-dom";
+import { Routes, Route } from "react-router-dom";
 import Header from "./pages/Header/Header";
 import Home from "./pages/Home/Home";
 import { useNavigate } from "react-router-dom";
@@ -14,14 +13,6 @@ import AdminPanel from "./pages/AdminPanel/AdminPanel";
 
 function App() {
   const navigate = useNavigate();
-
-  useEffect(() => {
-    const params = new URLSearchParams(window.location.search);
-    const redirect = params.get("redirect");
-    if (redirect) {
-      navigate(`/${redirect}`);
-    }
-  }, [navigate]);
 
   return (
     <>

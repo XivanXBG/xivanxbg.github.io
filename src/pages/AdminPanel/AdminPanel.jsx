@@ -1,54 +1,70 @@
 import { useState, useEffect } from "react";
-import styles from "./Admin.module.scss"; // Optional - стилове ако искаш
+import styles from "./Admin.module.scss";
 
 function AdminPanel() {
-  const [isAuthorized, setIsAuthorized] = useState(false);
+  const [status, setStatus] = useState("waking"); // waking | unauthorized | authorized | failed
   const [inquiries, setInquiries] = useState([]);
 
-  const fetchInquiries = async (enteredPassword) => {
+  const fetchInquiries = async (password) => {
     try {
-      // Първо проверка на паролата
+      // Check password
       const checkResponse = await fetch(
         "https://backend-dyankoveood.onrender.com/check-admin-password",
         {
           method: "POST",
           headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({ password: enteredPassword }),
+          body: JSON.stringify({ password }),
         }
       );
 
       if (!checkResponse.ok) {
         alert("Грешна парола!");
+        setStatus("unauthorized");
         return;
       }
 
-      // Ако паролата е вярна, зареждаме данните
-      setIsAuthorized(true);
+      setStatus("authorized");
 
       const dataResponse = await fetch(
         "https://backend-dyankoveood.onrender.com/inquiries",
         {
-          headers: { Authorization: `Bearer ${enteredPassword}` }, // За всеки случай - двойна защита
+          headers: { Authorization: `Bearer ${password}` },
         }
       );
+
       const data = await dataResponse.json();
-      setInquiries(data.reverse()); // Най-новите първи
-    } catch (error) {
-      console.error("Error fetching inquiries:", error);
-      alert("Грешка при зареждането на запитванията.");
+      setInquiries(data.reverse());
+    } catch (err) {
+      console.error("Backend error:", err);
+      alert("Грешка при зареждането. Моля опитайте след малко.");
+      setStatus("failed");
     }
   };
 
   useEffect(() => {
-    const enteredPassword = prompt("Въведете парола за достъп:");
-    if (enteredPassword) {
-      fetchInquiries(enteredPassword);
-    }
+    // Try pinging the backend first to "wake it up"
+    const wakeUp = async () => {
+      try {
+        await fetch("https://backend-dyankoveood.onrender.com/ping"); // simple GET route
+        const password = prompt("Въведете парола за достъп:");
+        if (password) {
+          fetchInquiries(password);
+        } else {
+          setStatus("unauthorized");
+        }
+      } catch {
+        setStatus("failed");
+      }
+    };
+
+    wakeUp();
   }, []);
 
-  if (!isAuthorized) {
-    return <p>Нямате достъп до тази страница.</p>;
-  }
+  if (status === "waking")
+    return <p>Стартиране на административния панел...</p>;
+  if (status === "failed")
+    return <p>Сървърът се събужда. Моля опитайте след няколко секунди.</p>;
+  if (status === "unauthorized") return <p>Нямате достъп до тази страница.</p>;
 
   return (
     <div className={styles.adminPanel}>
@@ -76,7 +92,7 @@ function AdminPanel() {
                 <strong>Дата:</strong> {inquiry.date}
               </p>
 
-              {inquiry.files && inquiry.files.length > 0 && (
+              {inquiry.files?.length > 0 && (
                 <div className={styles.filesSection}>
                   <strong>Качени снимки:</strong>
                   <div className={styles.filesGrid}>
