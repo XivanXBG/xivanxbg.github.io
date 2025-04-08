@@ -154,6 +154,7 @@ function ContactForm() {
       </div>
 
       <div className={styles.gdpr}>
+        <label>Съгласен съм с обработката на личните ми данни*</label>
         <input
           type="checkbox"
           name="consent"
@@ -161,7 +162,6 @@ function ContactForm() {
           onChange={handleChange}
           required
         />
-        <label>Съгласен съм с обработката на личните ми данни*</label>
       </div>
 
       <button type="submit" disabled={isSubmitting}>

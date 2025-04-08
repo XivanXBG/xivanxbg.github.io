@@ -25,7 +25,7 @@ function Home() {
         </div>
       </section>
 
-      <section>
+      <section className={styles.recent}>
         <h2 className={styles.sectionTitle}>Нашите най-скорошни обекти</h2>
         <RecentProjects />
       </section>

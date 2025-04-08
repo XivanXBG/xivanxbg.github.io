@@ -1,6 +1,7 @@
 .hero {
+  position: relative;
+  height: 60vh;
   max-height: 800px;
-  height: 60%;
   width: 100%;
   overflow: hidden;
   display: flex;
@@ -8,10 +9,11 @@
   justify-content: center;
   text-align: center;
   color: #fff;
+
   .image {
     width: 100%;
     height: 100%;
-    background-size: contain;
+    object-fit: cover;
     filter: brightness(0.4);
   }
 
@@ -21,12 +23,23 @@
     display: flex;
     flex-direction: column;
     justify-content: center;
-    font-size: xx-large;
-    h4 {
-      margin: 0px;
+    align-items: center;
+    padding: 20px;
+    max-width: 90%;
+    font-size: 1.5rem;
+
+    h4,
+    h1,
+    p {
+      margin: 5px 0;
     }
+
     h1 {
-      margin: 0px;
+      font-size: 2rem;
+    }
+
+    p {
+      font-size: 1.2rem;
     }
   }
 
@@ -35,6 +48,7 @@
     display: flex;
     gap: 10px;
     justify-content: center;
+    flex-wrap: wrap;
 
     .button {
       padding: 10px 20px;
@@ -43,12 +57,12 @@
       color: white;
       border: none;
       border-radius: 5px;
-      font-size: large;
-    }
-    .button:hover {
-      background-color: rgb(107, 149, 107);
-      color: #000;
-      cursor: pointer;
+      font-size: 1rem;
+
+      &:hover {
+        background-color: rgb(107, 149, 107);
+        color: #000;
+      }
     }
   }
 }
@@ -57,4 +71,38 @@
   text-align: center;
   margin: 20px 0;
   font-size: 1.8rem;
+}
+.recent {
+  margin-bottom: 30px;
+}
+
+// 📱 Responsive adjustments
+@media (max-width: 768px) {
+  .hero {
+    height: auto;
+    flex-direction: column;
+
+    .overlay {
+      font-size: 1.1rem;
+
+      h1 {
+        font-size: 1.5rem;
+      }
+
+      p {
+        font-size: 1rem;
+      }
+    }
+
+    .buttons {
+      .button {
+        font-size: 0.95rem;
+        padding: 8px 16px;
+      }
+    }
+  }
+
+  .sectionTitle {
+    font-size: 1.5rem;
+  }
 }
